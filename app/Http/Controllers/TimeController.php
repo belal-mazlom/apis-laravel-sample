@@ -36,4 +36,15 @@ class TimeController extends BaseController
             return response()->json($response, 400);
         }
     }
+
+    public function getCompleteWeeks ($date1 = null, $date2 = null) {
+        try {
+            $weeks = Time::getTotalCompleteWeeks($date1, $date2);
+            $response = FormatResponse::formatResponse($weeks);
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            $response = FormatResponse::formatError($e);
+            return response()->json($response, 400);
+        }
+    }
 }
