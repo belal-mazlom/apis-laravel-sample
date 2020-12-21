@@ -28,4 +28,8 @@ class TimeController extends BaseController
             return response()->json($response, 400);
         }
     }
+
+    public function getTotalWeekends () {
+
+    }
 }

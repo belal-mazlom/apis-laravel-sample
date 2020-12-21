@@ -28,4 +28,26 @@ class TimeTest extends TestCase
             $this->assertEquals($e->getMessage(), 'Missing parameters');
         }
     }
+
+    public function testGetTotalWeekends()
+    {
+        // Regular parameters
+        $result = Time::getTotalWeekdays('2020-11-15', '2020-12-15');
+        $this->assertEquals($result, 21);
+
+        // Only weekends
+        $result = Time::getTotalWeekdays('2020-12-19', '2020-12-20');
+        $this->assertEquals($result, 0);
+
+        // Reversed values
+        $result3 = Time::getTotalWeekdays('2020-12-20', '2020-12-15');
+        $this->assertEquals($result3, 4);
+
+        // Pass null parameters throw exception
+        try {
+            $this->expectException(Time::getTotalWeekdays(null, null));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Missing parameters');
+        }
+    }
 }
