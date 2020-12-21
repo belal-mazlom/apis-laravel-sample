@@ -45,13 +45,5 @@
                 </div>
             </div>
         </div>
-    <?php
-        $d1=new DateTime("2020-12-15");
-        $d2=new DateTime("2020-12-20");
-        $diff=$d2->diff($d1);
-        echo '<pre>';
-        print_r( $diff->days ) ;
-        echo '</pre>';
-    ?>
     </body>
 </html>

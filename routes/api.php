@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\TimeController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('time')->group(function () {
+    Route::get('total-days/{date1?}/{date2?}', [TimeController::class, 'getTotalDays']);
 });
