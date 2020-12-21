@@ -17,9 +17,6 @@ class TimeController extends BaseController
     public function getTotalDays($date1 = null, $date2 = null)
     {
         try {
-            if (empty($date1) || empty($date2)) {
-                throw new \Exception("Missing parameters!");
-            }
             $days = Time::getTotalDays($date1, $date2);
             $response = FormatResponse::formatResponse($days);
             return response()->json($response, 200);
@@ -29,7 +26,14 @@ class TimeController extends BaseController
         }
     }
 
-    public function getTotalWeekends () {
-
+    public function getTotalWeekdays ($date1 = null, $date2 = null) {
+        try {
+            $days = Time::getTotalWeekdays($date1, $date2);
+            $response = FormatResponse::formatResponse($days);
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            $response = FormatResponse::formatError($e);
+            return response()->json($response, 400);
+        }
     }
 }
