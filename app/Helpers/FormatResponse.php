@@ -11,11 +11,14 @@ namespace App\Helpers;
 
 class FormatResponse
 {
-    static function formatResponse($data)
+    static function formatResponse($data, $unit = null)
     {
         $response = new \stdClass;
         $response->status = true;
-        $response->data = $data;
+        $response->data['value'] = $data;
+        if (!empty($unit)) {
+            $response->data['unit'] = $unit;
+        }
         return $response;
     }
 

@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('time')->group(function () {
-    Route::get('total-days/{date1?}/{date2?}', [TimeController::class, 'getTotalDays']);
-    Route::get('total-weekdays/{date1?}/{date2?}', [TimeController::class, 'getTotalWeekdays']);
-    Route::get('complete-weeks/{date1?}/{date2?}', [TimeController::class, 'getCompleteWeeks']);
+    Route::get('total-days/{date1?}/{date2?}/{unit?}', [TimeController::class, 'getTotalDays']);
+    Route::get('total-weekdays/{date1?}/{date2?}/{unit?}', [TimeController::class, 'getTotalWeekdays']);
+    Route::get('complete-weeks/{date1?}/{date2?}/{unit?}', [TimeController::class, 'getCompleteWeeks']);
 });

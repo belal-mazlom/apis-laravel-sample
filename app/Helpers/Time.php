@@ -36,27 +36,54 @@ class Time
     }
 
     /**
-     * @param $timeOne String format ex: 2020-10-20
-     * @param $timeTwo String format ex: 2020-05-10
-     * @return mixed
-     * @throws \Exception if one parameter is empty or null
+     * Convert from days to target time unit
+     * @param $val
+     * @param $unit
+     * @return float|int
      */
-    static function getTotalDays($timeOne, $timeTwo)
-    {
-        self::checkParameters($timeOne, $timeTwo);
-        $dateTimeOne = new \DateTime($timeOne);
-        $dateTimeTwo = new \DateTime($timeTwo);
-        $diffTime = $dateTimeTwo->diff($dateTimeOne);
-        return $diffTime->days;
+    static function toUnit ($val, $unit) {
+
+        switch ($unit) {
+            case  'seconds':
+                return $val * 24 * 60 * 60;
+            case  'minutes':
+                return $val * 24 * 60;
+            case  'hours':
+                return $val * 24;
+            case  'years':
+                return intval($val / 365);
+            default:
+                return $val;
+        }
     }
 
     /**
      * @param $timeOne String format ex: 2020-10-20
      * @param $timeTwo String format ex: 2020-05-10
+     * @param $unit String of base unit of returned result
      * @return mixed
      * @throws \Exception if one parameter is empty or null
      */
-    static function getTotalWeekdays($timeOne, $timeTwo)
+    static function getTotalDays($timeOne, $timeTwo, $unit = 'days')
+    {
+        self::checkParameters($timeOne, $timeTwo);
+        $dateTimeOne = new \DateTime($timeOne);
+        $dateTimeTwo = new \DateTime($timeTwo);
+        $diffTime = $dateTimeTwo->diff($dateTimeOne);
+
+        $days = $diffTime->days;
+
+        return self::toUnit($days, strtolower($unit));
+    }
+
+    /**
+     * @param $timeOne String format ex: 2020-10-20
+     * @param $timeTwo String format ex: 2020-05-10
+     * @param $unit String of base unit of returned result
+     * @return mixed
+     * @throws \Exception if one parameter is empty or null
+     */
+    static function getTotalWeekdays($timeOne, $timeTwo, $unit = 'days')
     {
         self::checkParameters($timeOne, $timeTwo);
         $dateTimeOne = new \DateTime($timeOne);
@@ -71,16 +98,17 @@ class Time
                 $totalWeekDays++;
             }
         }
-        return $totalWeekDays;
+        return self::toUnit($totalWeekDays, strtolower($unit));
     }
 
     /**
      * @param $timeOne String format ex: 2020-10-20
      * @param $timeTwo String format ex: 2020-05-10
+     * @param $unit String of base unit of returned result
      * @return mixed
      * @throws \Exception if one parameter is empty or null
      */
-    static function getTotalCompleteWeeks($timeOne, $timeTwo)
+    static function getTotalCompleteWeeks($timeOne, $timeTwo, $unit = 'weeks')
     {
         self::checkParameters($timeOne, $timeTwo);
         $dateTimeOne = new \DateTime($timeOne);
@@ -107,6 +135,12 @@ class Time
                 $totalCompleteWeeks++;
             }
         }
-        return $totalCompleteWeeks;
+
+        $unit = strtolower($unit);
+
+        if ($unit == 'weeks') {
+            return $totalCompleteWeeks;
+        }
+        return self::toUnit($totalCompleteWeeks * 7, $unit);
     }
 }
