@@ -5,7 +5,7 @@
 
 ## About this sample
 
-Just some methods to compair times. APIs get two dates, return result after calculation, The project using Laravel framework.
+Just some methods to compare times. APIs get two dates, return result after calculation, The project using Laravel framework.
 
 ## Installation
 
@@ -98,7 +98,6 @@ tests\
       Unit\
            FormatResponseTest.php   // unit test for FormatResponse.php
            TimeTest.php   // unit test for Time.php
-//
 
 ```
 
