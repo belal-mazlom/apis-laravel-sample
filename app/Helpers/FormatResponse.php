@@ -11,7 +11,7 @@ namespace App\Helpers;
 
 class FormatResponse
 {
-    static function formatResponse($data, $unit = null)
+    static function format($data, $unit = null)
     {
         $response = new \stdClass;
         $response->status = true;

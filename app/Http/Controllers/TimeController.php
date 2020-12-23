@@ -25,7 +25,7 @@ class TimeController extends BaseController
 
         try {
             $days = Time::getTotalDays($date1, $date2, $timeZone1, $timeZone2, $unit);
-            $response = FormatResponse::formatResponse($days, $unit);
+            $response = FormatResponse::format($days, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
             $response = FormatResponse::formatError($e);
@@ -43,7 +43,7 @@ class TimeController extends BaseController
 
         try {
             $days = Time::getTotalWeekdays($date1, $date2, $timeZone1, $timeZone2, $unit);
-            $response = FormatResponse::formatResponse($days, $unit);
+            $response = FormatResponse::format($days, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
             $response = FormatResponse::formatError($e);
@@ -61,7 +61,7 @@ class TimeController extends BaseController
 
         try {
             $weeks = Time::getTotalCompleteWeeks($date1, $date2, $timeZone1, $timeZone2, $unit);
-            $response = FormatResponse::formatResponse($weeks, $unit);
+            $response = FormatResponse::format($weeks, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
             $response = FormatResponse::formatError($e);
