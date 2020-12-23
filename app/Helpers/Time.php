@@ -41,7 +41,8 @@ class Time
      * @param $unit
      * @return float|int
      */
-    static function toUnit ($val, $unit) {
+    static function toUnit($val, $unit)
+    {
 
         switch ($unit) {
             case  'seconds':
@@ -58,19 +59,39 @@ class Time
     }
 
     /**
+     * Check validate of time zone
+     * @param $timezone String represent target timezone
+     * @return String same value if valid or default Application timezone
+     */
+    static function validateTimeZone($timezone)
+    {
+        $timezone = strtolower($timezone);
+        if (in_array($timezone, \config('constraints.timezones')) ||
+            in_array($timezone, \config('constraints.timezones_abbr'))) {
+            return $timezone;
+        }
+        return \config('app.timezone');
+    }
+
+    /**
      * @param $timeOne String format ex: 2020-10-20
      * @param $timeTwo String format ex: 2020-05-10
+     * @param $timeZone1 String represent timezone of $timeOne
+     * @param $timeZone2 String represent timezone of $timeTwo
      * @param $unit String of base unit of returned result
      * @return mixed
      * @throws \Exception if one parameter is empty or null
      */
-    static function getTotalDays($timeOne, $timeTwo, $unit = 'days')
+    static function getTotalDays($timeOne, $timeTwo, $timeZone1 = null, $timeZone2 = null, $unit = 'days')
     {
         self::checkParameters($timeOne, $timeTwo);
-        $dateTimeOne = new \DateTime($timeOne);
-        $dateTimeTwo = new \DateTime($timeTwo);
-        $diffTime = $dateTimeTwo->diff($dateTimeOne);
+        $timeZone1 = self::validateTimeZone($timeZone1);
+        $timeZone2 = self::validateTimeZone($timeZone2);
 
+        $dateTimeOne = new \DateTime($timeOne, new \DateTimeZone($timeZone1));
+        $dateTimeTwo = new \DateTime($timeTwo, new \DateTimeZone($timeZone2));
+
+        $diffTime = $dateTimeTwo->diff($dateTimeOne);
         $days = $diffTime->days;
 
         return self::toUnit($days, strtolower($unit));
@@ -79,19 +100,26 @@ class Time
     /**
      * @param $timeOne String format ex: 2020-10-20
      * @param $timeTwo String format ex: 2020-05-10
+     * @param $timeZone1 String represent timezone of $timeOne
+     * @param $timeZone2 String represent timezone of $timeTwo
      * @param $unit String of base unit of returned result
      * @return mixed
      * @throws \Exception if one parameter is empty or null
      */
-    static function getTotalWeekdays($timeOne, $timeTwo, $unit = 'days')
+    static function getTotalWeekdays($timeOne, $timeTwo, $timeZone1 = null, $timeZone2 = null, $unit = 'days')
     {
         self::checkParameters($timeOne, $timeTwo);
-        $dateTimeOne = new \DateTime($timeOne);
-        $dateTimeTwo = new \DateTime($timeTwo);
+        $timeZone1 = self::validateTimeZone($timeZone1);
+        $timeZone2 = self::validateTimeZone($timeZone2);
+
+        $dateTimeOne = new \DateTime($timeOne, new \DateTimeZone($timeZone1));
+        $dateTimeTwo = new \DateTime($timeTwo, new \DateTimeZone($timeZone2));
+
         $diffTime = $dateTimeTwo->diff($dateTimeOne);
         $countDays = $diffTime->days + 1;
         $totalWeekDays = 0;
         $startTime = $timeOne < $timeTwo ? $timeOne : $timeTwo;
+
         for ($i = 0; $i < $countDays; $i++) {
             $date = date('Y-m-d', strtotime($startTime . " +$i day"));
             if (!self::isWeekend($date)) {
@@ -104,17 +132,22 @@ class Time
     /**
      * @param $timeOne String format ex: 2020-10-20
      * @param $timeTwo String format ex: 2020-05-10
+     * @param $timeZone1 String represent timezone of $timeOne
+     * @param $timeZone2 String represent timezone of $timeTwo
      * @param $unit String of base unit of returned result
      * @return mixed
      * @throws \Exception if one parameter is empty or null
      */
-    static function getTotalCompleteWeeks($timeOne, $timeTwo, $unit = 'weeks')
+    static function getTotalCompleteWeeks($timeOne, $timeTwo, $timeZone1 = null, $timeZone2 = null, $unit = 'weeks')
     {
         self::checkParameters($timeOne, $timeTwo);
-        $dateTimeOne = new \DateTime($timeOne);
-        $dateTimeTwo = new \DateTime($timeTwo);
-        $diffTime = $dateTimeTwo->diff($dateTimeOne);
+        $timeZone1 = self::validateTimeZone($timeZone1);
+        $timeZone2 = self::validateTimeZone($timeZone2);
 
+        $dateTimeOne = new \DateTime($timeOne, new \DateTimeZone($timeZone1));
+        $dateTimeTwo = new \DateTime($timeTwo, new \DateTimeZone($timeZone2));
+
+        $diffTime = $dateTimeTwo->diff($dateTimeOne);
         $totalCompleteWeeks = 0;
         // To calc complete week
         $startTime = $timeOne < $timeTwo ? $timeOne : $timeTwo;

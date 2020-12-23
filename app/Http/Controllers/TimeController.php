@@ -9,15 +9,22 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FormatResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use App\Helpers\Time;
 
 class TimeController extends BaseController
 {
-    public function getTotalDays($date1 = null, $date2 = null, $unit = 'days')
+    public function getTotalDays(Request $request)
     {
+        $date1 = $request->input('date1', null);
+        $date2 = $request->input('date2', null);
+        $timeZone1 = $request->input('tz1', null);
+        $timeZone2 = $request->input('tz2', null);
+        $unit = $request->input('unit', 'days');
+
         try {
-            $days = Time::getTotalDays($date1, $date2, $unit);
+            $days = Time::getTotalDays($date1, $date2, $timeZone1, $timeZone2, $unit);
             $response = FormatResponse::formatResponse($days, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
@@ -26,9 +33,16 @@ class TimeController extends BaseController
         }
     }
 
-    public function getTotalWeekdays ($date1 = null, $date2 = null, $unit = 'days') {
+    public function getTotalWeekdays(Request $request)
+    {
+        $date1 = $request->input('date1', null);
+        $date2 = $request->input('date2', null);
+        $timeZone1 = $request->input('tz1', null);
+        $timeZone2 = $request->input('tz2', null);
+        $unit = $request->input('unit', 'days');
+
         try {
-            $days = Time::getTotalWeekdays($date1, $date2, $unit);
+            $days = Time::getTotalWeekdays($date1, $date2, $timeZone1, $timeZone2, $unit);
             $response = FormatResponse::formatResponse($days, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
@@ -37,9 +51,16 @@ class TimeController extends BaseController
         }
     }
 
-    public function getCompleteWeeks ($date1 = null, $date2 = null, $unit = 'weeks') {
+    public function getCompleteWeeks(Request $request)
+    {
+        $date1 = $request->input('date1', null);
+        $date2 = $request->input('date2', null);
+        $timeZone1 = $request->input('tz1', null);
+        $timeZone2 = $request->input('tz2', null);
+        $unit = $request->input('unit', 'weeks');
+
         try {
-            $weeks = Time::getTotalCompleteWeeks($date1, $date2, $unit);
+            $weeks = Time::getTotalCompleteWeeks($date1, $date2, $timeZone1, $timeZone2, $unit);
             $response = FormatResponse::formatResponse($weeks, $unit);
             return response()->json($response, 200);
         } catch (\Exception $e) {
