@@ -22,7 +22,7 @@ Run inside root project directory:<br/>
 
 
 To run dev server:<br/>
-`php artisan serve`
+`php artisan serve --port 8080`
 
 Open in browser: http://localhost:8080/
 
