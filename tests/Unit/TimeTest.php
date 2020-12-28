@@ -52,6 +52,20 @@ class TimeTest extends TestCase
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'Missing parameters');
         }
+
+        // Pass wrong date1 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalDays('2--202-22', '2020-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date1 parameter');
+        }
+
+        // Pass wrong date2 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalDays('2020-09-20', '2---0-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date2 parameter');
+        }
     }
 
     public function testGetTotalWeekends()
@@ -97,6 +111,20 @@ class TimeTest extends TestCase
             $this->expectException(Time::getTotalWeekdays(null, null));
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'Missing parameters');
+        }
+
+        // Pass wrong date1 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalWeekdays('2--202-22', '2020-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date1 parameter');
+        }
+
+        // Pass wrong date2 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalWeekdays('2020-09-20', '2---0-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date2 parameter');
         }
     }
 
@@ -148,6 +176,20 @@ class TimeTest extends TestCase
             $this->expectException(Time::getTotalCompleteWeeks(null, null));
         } catch (\Exception $e) {
             $this->assertEquals($e->getMessage(), 'Missing parameters');
+        }
+
+        // Pass wrong date1 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalCompleteWeeks('2--202-22', '2020-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date1 parameter');
+        }
+
+        // Pass wrong date2 parameter throw exception
+        try {
+            $this->expectException(Time::getTotalCompleteWeeks('2020-09-20', '2---0-10-10'));
+        } catch (\Exception $e) {
+            $this->assertEquals($e->getMessage(), 'Invalid date2 parameter');
         }
     }
 }

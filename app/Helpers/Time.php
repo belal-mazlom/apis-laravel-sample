@@ -24,6 +24,17 @@ class Time
             empty($timeTwo)) {
             throw new \Exception('Missing parameters');
         }
+
+        $date1Parse = date_parse($timeOne);
+        $date2Parse = date_parse($timeTwo);
+
+        if (count($date1Parse['errors']) > 0) {
+            throw new \Exception('Invalid date1 parameter');
+        }
+
+        if (count($date2Parse['errors']) > 0) {
+            throw new \Exception('Invalid date2 parameter');
+        }
     }
 
     /**
